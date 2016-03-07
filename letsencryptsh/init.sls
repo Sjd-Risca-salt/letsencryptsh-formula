@@ -3,20 +3,20 @@
 letsencryptsh-dependency:
   pkg.installed:
     - pkgs:
-{%- for pkg in {{ letsencryptsh_settings:required }} %}
+{%- for pkg in {{ letsencryptsh_settings.required }} %}
       - {{ pkg }}
 {% endfor %}
 
 letsencryptsh-install:
   git.latest:
-    - name: {{ letsencryptsh_settings:repository }}
-    - branch: {{ letsencryptsh_settings:branch }}
-    - depth: {{ letsencryptsh:depth }}
-    - target: {{ letsencryptsh:install_path }}
+    - name: {{ letsencryptsh_settings.repository }}
+    - branch: {{ letsencryptsh_settings.branch }}
+    - depth: {{ letsencryptsh_settings.depth }}
+    - target: {{ letsencryptsh_settings.install_path }}
 
 letsencryptsh-config:
   file.managed:
-    - name: {{ letsencryptsh:config_path }}
+    - name: {{ letsencryptsh_settings.config_path }}
     - makedirs: True
     - source: salt://letsencryptsh.files.config.jinja
     - template: jinja
@@ -26,7 +26,7 @@ letsencryptsh-config:
 
 letsencryptsh-domains:
   file.managed:
-    - name: {{ letsencryptsh:BASEDIR }}/domains.txt
+    - name: {{ letsencryptsh_settings.BASEDIR }}/domains.txt
     - makedirs: True
     - contents_pillar: letsencryptsh:domains
     - user: root
