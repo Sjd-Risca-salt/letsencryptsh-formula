@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-{%- from "letsencryptsh/map.jinja" import letsencryptsh_settings with context %}
-{%- set cfg = letsencryptsh_settings %}
+{%- set cfg = pillar.get('letsencryptsh', {}) %}
 {%- macro get_config(configname, default_value) -%}
 {%- if configname in cfg -%}
 {{ configname }}={{ cfg[configname] }}
