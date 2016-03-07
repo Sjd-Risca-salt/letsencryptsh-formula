@@ -1,4 +1,4 @@
-{% from "letsencrypt/map.jinja" import letsencryptsh_settings with context %}
+{% from "letsencryptsh/map.jinja" import letsencryptsh_settings with context %}
 
 letsencryptsh-dependency:
   pkg.installed:
