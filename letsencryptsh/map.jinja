@@ -7,7 +7,7 @@ only add key:values here that differ drom whats in defaults.yaml
 ##}
 {% set os_family_map = salt['grains.filter_by']({
     'Debian': {
-        'required': {'curl', 'sed', 'grep', 'coreutils'},
+        'required': ['curl', 'sed', 'grep', 'coreutils'],
     },
 }, grain="os_family",
    default='Debian',
