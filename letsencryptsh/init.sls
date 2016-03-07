@@ -2,7 +2,10 @@
 
 letsencryptsh-dependency:
   pkg.installed:
-    - pkgs: {{ letsencryptsh_settings:required }}
+    - pkgs:
+{%- for pkg in {{ letsencryptsh_settings:required }} %}
+      - {{ pkg }}
+{% endfor %}
 
 letsencryptsh-install:
   git.latest:
