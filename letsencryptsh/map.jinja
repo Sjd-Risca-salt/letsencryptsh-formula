@@ -1,0 +1,24 @@
+{## Start default_settings from defaults.yaml ##}
+{% import_yaml "letsencryptsh/defaults.yaml" as default_settings %}
+
+{##
+Setup system variables based on grains['os_family'] logic,
+only add key:values here that differ drom whats in defaults.yaml
+##}
+{% set os_family_map = salt['grains.filter_by']({
+    'Debian': {
+        'required': {'curl', 'sed', 'grep', 'coreutils'},
+    },
+}, grain="os_family",
+   default='Debian',
+   merge=salt['pillar.get']('letsencryptsh:lookup')) %}
+
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.letsencryptsh.update(os_family_map) %}
+
+{## Merge in letsencryptsh:lookup pillar ##}
+{% set letsencryptsh_settings = salt['pillar.get'](
+    'letsencrypsh',
+    default=default_settings.letsencryptsh,
+    merge=True)
+%}
