@@ -1,0 +1,65 @@
+#!/usr/bin/env python2.7
+import fileinput
+import re
+import os
+from tempfile import mkstemp
+from shutil import move
+from os import remove, close
+
+SITES = '/etc/nginx/sites-available/'
+
+
+def uncomment(file_path, pattern):
+    #Create temp file
+    fh, abs_path = mkstemp()
+    with open(abs_path,'w') as new_file:
+        with open(file_path) as old_file:
+            for line in old_file:
+                if re.search(pattern, line):
+                    new_file.write(re.sub(r'^([^#]*)#*(.*)', r'\1\2', line))
+                else:
+                    new_file.write(line)
+    close(fh)
+    #Remove original file
+    remove(file_path)
+    #Move new file
+    move(abs_path, file_path)
+
+
+def comment(file_path, pattern):
+    #Create temp file
+    fh, abs_path = mkstemp()
+    with open(abs_path,'w') as new_file:
+        with open(file_path) as old_file:
+            for line in old_file:
+                if re.search(''.join(["^ *", pattern]), line):
+                    new_file.write(line.replace(pattern, ''.join(['#', pattern])))
+                else:
+                    new_file.write(line)
+    close(fh)
+    #Remove original file
+    remove(file_path)
+    #Move new file
+    move(abs_path, file_path)
+
+for conf in os.listdir(SITES):
+    SSL = True
+    print '==== ', conf, ' ====='
+    f = open(''.join([SITES, conf]), 'r')
+
+    for line in f:
+        if re.search("ssl_certificate", line):
+            print line
+            p = re.compile('ssl_certificate[^ ]* ([^;]*);')
+            m = p.search(line)
+            cert_path = m.group(1)
+            if os.path.isfile(cert_path):
+                print cert_path, ' is OK'
+            else:
+                print cert_path, ' not found'
+                SSL = False
+    f.close()
+    if not SSL:
+        comment(''.join([SITES, conf]), 'ssl')
+    if SSL:
+        uncomment(''.join([SITES, conf]), 'ssl')
