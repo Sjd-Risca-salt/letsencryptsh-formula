@@ -32,3 +32,5 @@ letsencryptsh-domains:
     - user: root
     - group: root
     - mode: 644
+
+# TODO: create and set permission of WELLKNOWN (default: /var/www/letsencrypt?)
