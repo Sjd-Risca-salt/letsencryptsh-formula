@@ -26,7 +26,7 @@ letsencryptsh-config:
 
 letsencryptsh-domains:
   file.managed:
-    - name: {{ salt['pillar.get']('letsencryptsh.BASEDIR', '/etc/letsencrypt.sh/domains.txt') }}
+    - name: {{ salt['pillar.get']('letsencryptsh.BASEDIR', letsencryptsh_settings.install_path) }}
     - makedirs: True
     - contents_pillar: letsencryptsh:domains
     - user: root
