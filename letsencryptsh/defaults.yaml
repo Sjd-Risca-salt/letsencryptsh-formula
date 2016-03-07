@@ -4,4 +4,4 @@ letsencryptsh:
   depth: 1
   install_path: /opt/letsencryptsh
   config_path: /etc/letsencrypt.sh/config.sh
-  BASEDIR: /etc/letsencrypt.sh/
+  BASEDIR: /etc/letsencrypt.sh

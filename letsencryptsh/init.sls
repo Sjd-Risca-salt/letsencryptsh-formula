@@ -18,7 +18,7 @@ letsencryptsh-config:
   file.managed:
     - name: {{ letsencryptsh_settings.config_path }}
     - makedirs: True
-    - source: salt://letsencryptsh.files.config.jinja
+    - source: salt://letsencryptsh/files/config.jinja
     - template: jinja
     - user: root
     - group: root
