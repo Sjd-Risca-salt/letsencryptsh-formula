@@ -13,3 +13,6 @@ In order to use this formula with the nginx-formula, please add in nginx vhost t
  - include /etc/nginx/global.d/*.conf;
 
 If nginx is already configure with wrong cert path, it is possible to comment them with the util scrip in /etc/letsencrypt.sh/
+
+## apache
+For apache it is required to enable the letsencrypt.conf and reload the webserver.

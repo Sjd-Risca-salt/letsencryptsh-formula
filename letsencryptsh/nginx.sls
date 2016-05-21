@@ -8,7 +8,7 @@ letsencryptsh-nginx-global-alias:
     - makedirs: True
     - template: jinja
 
-letsencryptsh-utils:
+letsencryptsh-utils-nginx:
   file.managed:
     - name: /etc/letsencrypt.sh/check_ssl_path.py
     - user: root
