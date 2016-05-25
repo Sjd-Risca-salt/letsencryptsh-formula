@@ -1,5 +1,5 @@
 # letsencrypt.sh-formula
-Saltstack formula for letsencrypt, using the client letsencrypt.sh
+Saltstack formula for letsencrypt, using the client [[https://github.com/lukas2511/letsencrypt.sh|letsencrypt.sh]].
 
 ## Why
 

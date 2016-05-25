@@ -3,4 +3,4 @@ letsencryptsh:
   branch: master
   depth: 1
   install_path: /opt/letsencryptsh
-  config_path: /etc/letsencrypt.sh/config.sh
+  config_path: /etc/letsencrypt.sh/config
