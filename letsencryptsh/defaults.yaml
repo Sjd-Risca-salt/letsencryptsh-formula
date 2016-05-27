@@ -1,6 +1,11 @@
 letsencryptsh:
+  # Options for repository cloning
   repository: https://github.com/lukas2511/letsencrypt.sh.git
   branch: master
   depth: 1
   install_path: /opt/letsencryptsh
+  # Configuration path
   config_path: /etc/letsencrypt.sh/config
+  cron_enabled: True
+  # Required by apache/nginx configuration
+  WELLKNOWN: /var/www/letsencrypt

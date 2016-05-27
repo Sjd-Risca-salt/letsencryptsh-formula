@@ -1,5 +1,9 @@
 #!/usr/bin/env python2.7
-import fileinput
+"""
+Utility for disable/enable SSL option on webserver if the certificate is not
+present.
+"""
+#import fileinput
 import re
 import os
 from tempfile import mkstemp
@@ -10,56 +14,65 @@ SITES = '/etc/nginx/sites-available/'
 
 
 def uncomment(file_path, pattern):
+    """Remove the comment if a certain pattern is matched"""
     #Create temp file
-    fh, abs_path = mkstemp()
-    with open(abs_path,'w') as new_file:
+    file_desc, tmp_file = mkstemp()
+    with open(tmp_file, 'w') as new_file:
         with open(file_path) as old_file:
-            for line in old_file:
-                if re.search(pattern, line):
-                    new_file.write(re.sub(r'^([^#]*)#*(.*)', r'\1\2', line))
+            for _line in old_file:
+                if re.search(pattern, _line):
+                    new_file.write(re.sub(r'^([^#]*)#*(.*)', r'\1\2', _line))
                 else:
-                    new_file.write(line)
-    close(fh)
+                    new_file.write(_line)
+    close(file_desc)
     #Remove original file
     remove(file_path)
-    #Move new file
-    move(abs_path, file_path)
+    #Move new file on old one
+    move(tmp_file, file_path)
 
 
 def comment(file_path, pattern):
+    """Comment all lines that match a pattern"""
     #Create temp file
-    fh, abs_path = mkstemp()
-    with open(abs_path,'w') as new_file:
+    file_desc, abs_path = mkstemp()
+    with open(abs_path, 'w') as new_file:
         with open(file_path) as old_file:
-            for line in old_file:
-                if re.search(''.join(["^ *", pattern]), line):
-                    new_file.write(line.replace(pattern, ''.join(['#', pattern])))
+            for _line in old_file:
+                if re.search(''.join(["^ *", pattern]), _line):
+                    #pylint: disable=bad-continuation
+                    new_file.write(_line.replace(pattern,
+                                   ''.join(['#', pattern])))
                 else:
-                    new_file.write(line)
-    close(fh)
+                    new_file.write(_line)
+    close(file_desc)
     #Remove original file
     remove(file_path)
     #Move new file
     move(abs_path, file_path)
 
-for conf in os.listdir(SITES):
-    SSL = True
-    print '==== ', conf, ' ====='
-    f = open(''.join([SITES, conf]), 'r')
+def certfiles_exist(myconfig):
+    """
+    Return true if all of the certificate files exist.
+    """
+    ssl = True
+    with open(myconfig, 'r') as myfile:
+        for line in myfile:
+            if re.search("ssl_certificate", line):
+                print line
+                pattern = re.compile('ssl_certificate[^ ]* ([^;]*);')
+                match = pattern.search(line)
+                cert_path = match.group(1)
+                if os.path.isfile(cert_path):
+                    print cert_path, ' is OK'
+                else:
+                    print cert_path, ' not found'
+                    ssl = False
+    return ssl
 
-    for line in f:
-        if re.search("ssl_certificate", line):
-            print line
-            p = re.compile('ssl_certificate[^ ]* ([^;]*);')
-            m = p.search(line)
-            cert_path = m.group(1)
-            if os.path.isfile(cert_path):
-                print cert_path, ' is OK'
-            else:
-                print cert_path, ' not found'
-                SSL = False
-    f.close()
-    if not SSL:
+for conf in os.listdir(SITES):
+    SSL_OK = certfiles_exist(''.join([SITES, conf]))
+    print '==== ', conf, ' ====='
+    if not SSL_OK:
         comment(''.join([SITES, conf]), 'ssl')
-    if SSL:
+    if SSL_OK:
         uncomment(''.join([SITES, conf]), 'ssl')

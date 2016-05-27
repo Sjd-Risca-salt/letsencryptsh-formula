@@ -1,7 +1,7 @@
 letsencryptsh-nginx-global-alias:
   file.managed:
     - name: /etc/nginx/global.d/letsencryptsh.conf
-    - source: salt://letsencryptsh/files/letsencryptsh.conf
+    - source: salt://letsencryptsh/files/letsencryptsh-nginx.conf
     - user: root
     - group: root
     - mode: 644

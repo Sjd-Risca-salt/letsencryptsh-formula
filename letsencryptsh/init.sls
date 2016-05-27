@@ -34,3 +34,24 @@ letsencryptsh-domains:
     - mode: 644
 
 # TODO: create and set permission of WELLKNOWN (default: /var/www/letsencrypt?)
+letsencrypt-serverpath:
+  file.directory:
+    - name: {{ letsencryptsh_settings.WELLKNOWN }}
+    - makedirs: true
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+
+letsencrypt-check-cronjob:
+{%- if letsencryptsh_settings.cron_enabled %}
+  cron.present:
+    - name: /opt/letsencryptsh/letsencrypt.sh --cron
+    - user: root
+    - minute: 7
+    - hour: 11
+    - identifier: letsencryptjob
+{%- else %}
+  cron.absent:
+    - identifier: letsencryptjob
+{% endif %}
