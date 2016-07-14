@@ -3,7 +3,8 @@
 
 {##
 Setup system variables based on grains['os_family'] logic,
-only add key:values here that differ drom whats in defaults.yaml
+only add key:values here that differ from what's in defaults.yaml
+It also overwrite the option looking in letsencryptsh:lookup
 ##}
 {% set os_family_map = salt['grains.filter_by']({
     'Debian': {
@@ -16,7 +17,7 @@ only add key:values here that differ drom whats in defaults.yaml
 {## Merge the flavor_map to the default settings ##}
 {% do default_settings.letsencryptsh.update(os_family_map) %}
 
-{## Merge in letsencryptsh:lookup pillar ##}
+{## Merge settings with letsencryptsh pillar ##}
 {% set letsencryptsh_settings = salt['pillar.get'](
     'letsencryptsh',
     default=default_settings.letsencryptsh,
