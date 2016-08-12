@@ -1,4 +1,7 @@
 letsencryptsh:
+  repository: https://github.com/lukas2511/letsencrypt.sh.git
+  branch: master
+  depth: 1 # with one it will download with git only the data of the last commit
   domains: |
     example.com www.example.com
     mytest.xyz
