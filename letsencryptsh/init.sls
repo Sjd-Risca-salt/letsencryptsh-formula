@@ -43,6 +43,19 @@ letsencrypt-serverpath:
     - dir_mode: 755
     - file_mode: 644
 
+{% if salt['pillar.get']('letsencryptsh:HOOK', False) %}
+# Setup hook.sh file
+letsencrypt-hook-file:
+  file.managed:
+    - name: {{ salt['pillar.get']('letsencryptsh:HOOK') }}
+    - makedirs: True
+    - source: salt://letsencryptsh/files/hook.sh
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755
+{% endif %}
+
 letsencrypt-check-cronjob:
 {%- if letsencryptsh_settings.cron_enabled %}
   cron.present:

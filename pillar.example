@@ -7,4 +7,10 @@ letsencryptsh:
     mytest.xyz
     debian.org www.debian.org wiki.debian.org
   CONTACT_EMAIL: me@test.com
+  # In order to enable hook.sh file set the path of it:
+  HOOK: /etc/letsencryptsh/hook.sh
+  # custom command to be run by the hook function
+  hook:
+    deploy_cert:
+      - 'service apache reload'
 
