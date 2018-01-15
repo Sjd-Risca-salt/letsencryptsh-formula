@@ -9,6 +9,9 @@ It also overwrite the option looking in letsencryptsh:lookup
 {% set os_family_map = salt['grains.filter_by']({
     'Debian': {
         'required': ['curl', 'sed', 'grep', 'coreutils'],
+	'install_method': 'pkg',
+	'dehydrated_pkg': 'dehydrated',
+	'dehydrated_path': '/usr/bin/dehydrated',
     },
 }, grain="os_family",
    default='Debian',

@@ -3,9 +3,9 @@ letsencryptsh:
   repository: https://github.com/lukas2511/letsencrypt.sh.git
   branch: master
   depth: 1
-  install_path: /opt/letsencryptsh
+  install_path: /opt/dehydrated
   # Configuration path
-  config_path: /etc/letsencrypt.sh/config
+  config_path: /etc/dehydrated/
   cron_enabled: True
   # Required by apache/nginx configuration
-  WELLKNOWN: /var/www/letsencrypt
+  WELLKNOWN: /var/www/dehydrated/
