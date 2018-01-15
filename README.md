@@ -1,10 +1,14 @@
 # letsencrypt.sh-formula
-Saltstack formula for letsencrypt, using the client [[https://github.com/lukas2511/letsencrypt.sh|letsencrypt.sh]].
+Saltstack formula for letsencrypt, using the client [[https://github.com/lukas2511/dehydrated|dehydrated]] (aka former letsencrypt.sh).
 
 ## Why
 
 The official client is quite complex for the task required, what if using just a bunch of bash scripts? 
-By now this fomula supports by default only nginx, but I hope to get also apache support soon.
+Smart idea, let's user dehydrated (former letsencrypt.sh).
+
+The formula has additional helper for usage with:
+ - nginx;
+ - apache.
 
 # Modules
 
