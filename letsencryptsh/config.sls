@@ -38,7 +38,7 @@ letsencrypt-conf-file-{{ conf }}:
     - mode: 644
 {% endfor %}
 
-{%- set domains = salt[pillar.get]('letsencryptsh:domains', '') %}
+{%- set domains = salt['pillar.get']('letsencryptsh:domains', '') %}
 letsencryptsh-domains:
   file.managed:
     - name: {{ [letsencryptsh_settings.config_path, 'domains.txt']|join('/') }}
