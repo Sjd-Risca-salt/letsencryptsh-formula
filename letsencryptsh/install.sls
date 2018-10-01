@@ -39,7 +39,7 @@ letsencrypt-serverpath:
 letsencrypt-check-cronjob:
 {%- if letsencryptsh_settings.cron_enabled %}
   cron.present:
-    - name: {{ etsencryptsh_settings.dehydrated_path }} --cron
+    - name: {{ letsencryptsh_settings.dehydrated_path }} --cron
     - user: root
     - minute: 7
     - hour: 11

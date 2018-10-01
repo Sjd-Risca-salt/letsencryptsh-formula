@@ -3,6 +3,8 @@
   - domains list
   - hooks
 #}
+{%- from "letsencryptsh/map.jinja" import letsencryptsh_settings with context %}
+
 # This is the default package configuration, write your own in conf.d/
 letsencryptsh-main_config:
   file.managed:
